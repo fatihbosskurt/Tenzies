@@ -2,7 +2,7 @@ import Dice from "./Dice.jsx";
 import React from "react";
 import Confetti from "react-confetti";
 export default function App() {
-  const [numbers, setNumbers] = React.useState(generateNumbers());
+  const [numbers, setNumbers] = React.useState(() => generateNumbers());
 
   let gameWon =
     numbers.every((die) => die.isHeld) &&
@@ -51,6 +51,10 @@ export default function App() {
       )
     );
   }
+
+  function newGame() {
+    setNumbers((prevNumbers) => generateNumbers());
+  }
   return (
     <main>
       <h1>Tenzies</h1>
@@ -59,7 +63,7 @@ export default function App() {
         current value between rolls.
       </p>
       <div className="dices">{mappedNumbers}</div>
-      <button id="rollButton" onClick={rollDice}>
+      <button id="rollButton" onClick={gameWon ? newGame : rollDice}>
         {gameWon ? (
           <>
             New Game
