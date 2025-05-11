@@ -1,0 +1,67 @@
+* {
+    box-sizing: border-box;
+    font-family: "Karla", sans-serif;
+}
+
+body {
+    margin: 0;
+    background-color: #0B2434;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+main{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    border-radius: 10px;
+    height: 90%;
+    width: 90vw;
+    max-width: 1000px;
+    max-height: 800px;
+    background-color: #F5F5F5;
+}
+
+.dice{
+    height: 100px;
+    width: 100px;
+    border-radius: 8px;
+    font-size: 30px;
+    background-color: white;
+    box-shadow: 0 3px 2px rgba(0, 0, 0, 0.25);
+    border-style: none;
+    font-weight: 700;
+
+}
+
+.dices{
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+    gap:30px;
+    margin-bottom: 50px;
+}
+#rollButton{
+    height: 80px;
+    width: 180px;
+    color: white;
+    background-color: #5035FF;
+    font-weight: 700;
+    font-size: 30px;
+    border-radius: 10px;
+    box-shadow: 0 3px 2px rgba(0, 0, 0, 0.25);
+    border-style: none;
+}
+h1{
+    font-size: 60px;
+    margin:0;
+
+}
+p{
+    font-size: 25px;
+    width: 55%;
+
+}
