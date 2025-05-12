@@ -1,12 +1,33 @@
 import Dice from "./Dice.jsx";
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import Confetti from "react-confetti";
 export default function App() {
   const [numbers, setNumbers] = React.useState(() => generateNumbers());
+  const [counter, setCounter] = React.useState(0);
+  const [timer, setTimer] = React.useState(0);
+  const [isRunning, setIsRunning] = React.useState(true);
 
   let gameWon =
     numbers.every((die) => die.isHeld) &&
     numbers.every((die) => die.number === numbers[0].number);
+
+  const buttonRef = useRef(null);
+
+  useEffect(() => {
+    if (gameWon) {
+      buttonRef.current.focus();
+      setIsRunning(false);
+    }
+  }, [gameWon]);
+
+  useEffect(() => {
+    if (isRunning) {
+      const interval = setInterval(() => {
+        setTimer((prevTimer) => prevTimer + 1);
+      }, 1000);
+      return () => clearInterval(interval);
+    }
+  }, [isRunning]);
 
   function holdButton(id) {
     setNumbers((prevNumbers) =>
@@ -40,6 +61,8 @@ export default function App() {
   ));
 
   function rollDice() {
+    if (!isRunning) setIsRunning(true);
+    setCounter((prevCounter) => prevCounter + 1);
     setNumbers((prevNumbers) =>
       prevNumbers.map((die) =>
         die.isHeld
@@ -54,6 +77,9 @@ export default function App() {
 
   function newGame() {
     setNumbers((prevNumbers) => generateNumbers());
+    setCounter((prevCounter) => 0);
+    setTimer(0);
+    setIsRunning(true);
   }
   return (
     <main>
@@ -63,7 +89,11 @@ export default function App() {
         current value between rolls.
       </p>
       <div className="dices">{mappedNumbers}</div>
-      <button id="rollButton" onClick={gameWon ? newGame : rollDice}>
+      <button
+        id="rollButton"
+        ref={buttonRef}
+        onClick={gameWon ? newGame : rollDice}
+      >
         {gameWon ? (
           <>
             New Game
@@ -73,6 +103,11 @@ export default function App() {
           "Roll"
         )}
       </button>
+      <div id="infoBar">
+        <p>Rolls: {counter}</p>
+        <button onClick={newGame}>Reset</button>
+        <p>{timer}(s)</p>
+      </div>
     </main>
   );
 }
